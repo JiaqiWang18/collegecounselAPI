@@ -261,4 +261,4 @@ def buildList():
     return jsonify(out)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(threaded=True, port=8080)
