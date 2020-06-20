@@ -4,8 +4,8 @@ import mysql
 import mysql.connector
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 CORS(app)
-
 
 @app.route('/')
 def index():
@@ -14,14 +14,26 @@ def index():
 
 @app.route('/getData')
 def getAllData():
+    args = request.args
     con = mysql.connector.connect(user='admin', password='Jiaqi200218',
                                   host='collegedata.cwfud0qzqwsy.us-east-2.rds.amazonaws.com',
                                   database='collegeStats')
     cursor = con.cursor()
     alldata = dict()
-    cursor.execute("SELECT * FROM data")
+    if args:
+        if args["sort"] == "alpha":
+            sql = "select * from data ORDER BY SchoolName"
+        elif args["sort"] == "admitasc":
+            sql = "select * from data ORDER BY PercentAdmitted"
+        elif args["sort"] == "admitdes":
+            sql = "select * from data ORDER BY PercentAdmitted DESC"
+    else:
+        sql = "SELECT * FROM data"
+
+    cursor.execute(sql)
     data = cursor.fetchall()
     con.close()
+
     for schoolData in data:
         alldata[schoolData[1]]= \
             { 'name':schoolData[1],
@@ -43,13 +55,12 @@ def getAllData():
                 'graduation rate': str(round(schoolData[19])) + "%",
                 'strong majors': schoolData[20].split("breaker")
             }
-    args = request.args
 
     return jsonify(alldata)
 
 @app.route('/build')
 def buildList():
-    #http://127.0.0.1:8080/build?gpa=4&sat=1520&number=20&maxcost=100000
+    #https://collegedatasender.herokuapp.com/build?sat=1500&gpa=3.9&number=20&state=CA
     args = request.args
     gpa=float(args["gpa"])
     if 'sat' in args:
