@@ -21,18 +21,32 @@ def getAllData():
     cursor = con.cursor()
     alldata = dict()
     if args:
-        if args["sort"] == "alpha":
-            sql = "select * from data ORDER BY SchoolName"
-        elif args["sort"] == "admitasc":
-            sql = "select * from data ORDER BY PercentAdmitted"
-        elif args["sort"] == "admitdes":
-            sql = "select * from data ORDER BY PercentAdmitted DESC"
+        if "sort" in args:
+            if args["sort"] == "alpha":
+                print("here1")
+                sql = "select * from data ORDER BY SchoolName"
+            elif args["sort"] == "admitasc":
+                print("here2")
+                sql = "select * from data ORDER BY PercentAdmitted"
+            elif args["sort"] == "admitdes":
+                sql = "select * from data ORDER BY PercentAdmitted DESC"
+                print("here3")
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            con.close()
+        elif "schoolname" in args:
+            name = str(args["schoolname"])
+            sql = "select * from data WHERE SchoolName = %s"
+            cursor.execute(sql,(name,))
+            data = cursor.fetchall()
+            con.close()
+            print(data)
+            #return jsonify(data)
     else:
         sql = "SELECT * FROM data"
-
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    con.close()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        con.close()
 
     for schoolData in data:
         alldata[schoolData[1]]= \
