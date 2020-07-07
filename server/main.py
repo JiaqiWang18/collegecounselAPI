@@ -67,7 +67,10 @@ def getAllData():
                 'out of state cost of attendance per year': schoolData[17],
                 'location': schoolData[18],
                 'graduation rate': str(round(schoolData[19])) + "%",
-                'strong majors': schoolData[20].split("breaker")
+                'strong majors': schoolData[20].split("breaker"),
+                'admissions stats':schoolData[21],
+                'admissions req': schoolData[22],
+                'test optional':schoolData[23]
             }
 
     return jsonify(alldata)
