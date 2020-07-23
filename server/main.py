@@ -108,9 +108,9 @@ def buildList():
     numberOfMatch=round(0.5*numberOfSchools)
     numerOfSafety=round(0.3*numberOfSchools)
 
-    con = mysql.connector.connect(user='admin', password='Jiaqi200218',
-                                  host='collegedata.cwfud0qzqwsy.us-east-2.rds.amazonaws.com',
-                                  database='collegeStats')
+    con = mysql.connector.connect(user='xx', password='xx',
+                                  host='xx',
+                                  database='xx')
     cursor = con.cursor()
     cursor.execute("SELECT * FROM data")
     data = cursor.fetchall()
