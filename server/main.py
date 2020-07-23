@@ -15,9 +15,9 @@ def index():
 @app.route('/getData')
 def getAllData():
     args = request.args
-    con = mysql.connector.connect(user='admin', password='Jiaqi200218',
-                                  host='collegedata.cwfud0qzqwsy.us-east-2.rds.amazonaws.com',
-                                  database='collegeStats')
+    con = mysql.connector.connect(user='XX', password='XX',
+                                  host='XX',
+                                  database='XX')
     cursor = con.cursor()
     alldata = dict()
     if args:
